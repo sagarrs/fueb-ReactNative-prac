@@ -18,7 +18,7 @@ const DisplayText = (props) => {
                 return(
                     <View style={styles.displayText}>
                         <Image source={info.item.image} style={styles.placeImage}/>
-                        <Text onPress={() => {props.handleRemove(info.item.key)}}>{info.item.value}</Text>
+                        <Text onPress={() => {props.handleSelect(info.item.key)}}>{info.item.value}</Text>
                     </View>
                 )
             }}
