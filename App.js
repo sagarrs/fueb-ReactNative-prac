@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-nat
 
 import InputElements from './src/components/InputElements'
 import DisplayText from './src/components/DisplayText'
+import PlaceDetail from './src/components/PlaceDetail'
 import img from './assets/car1.jpg'
 
 class App extends React.Component {
@@ -10,7 +11,8 @@ class App extends React.Component {
     super()
     this.state = {
       placeName: "",
-      places: []
+      places: [],
+      selectedPlace: null
     }
   }
 
@@ -36,10 +38,27 @@ class App extends React.Component {
     }))
   }
 
-  handleRemove = (index) => {
+  onItemDeleted = () => {
     this.setState((prevState) => ({
       places: prevState.places.filter((place) => {
-        return place.key !== index
+        return place.key !== prevState.selectedPlace.key
+      }),
+      selectedPlace: null
+    }))
+  }
+
+  onModalClosed = () => {
+    this.setState(() => ({
+      selectedPlace: null
+    }))
+  }
+
+  handleSelect = (index) => {
+    this.setState((prevState) => ({
+      selectedPlace: prevState.places.find((place) => {
+        return(
+          place.key == index
+        )
       })
     }))
   }
@@ -47,11 +66,9 @@ class App extends React.Component {
   render(){
     return (
       <View style={styles.container}>
-        {/* <Text>Open up App.js to start working on your app!</Text> */}
-
         <InputElements handleTxt={this.handleTxt} handleBtn={this.handleBtn}/>
-
-        <DisplayText places={this.state.places} handleRemove={this.handleRemove}/>
+        <DisplayText places={this.state.places} handleSelect={this.handleSelect}/>
+        <PlaceDetail selectedPlace={this.state.selectedPlace} onItemDeleted={this.onItemDeleted} onModalClosed={this.onModalClosed}/>
       </View>
     );
   }
